@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Post Details{% endblock title %}
+
+{% block content %}
+<div class="row mt-5"> 
+         {% for results  in result %}
+             
+               <div class="col-4">  
+                <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                    <div class="card-header">{{results.timestamp.strftime('%d-%m-%Y, %H:%M:%S')}}</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Poste By:- {{results.author.username}}</h5>
+                        <p class="card-text">{{results.body}}</p>
+                    </div>
+                    </div>
+            </div>
+            
+            {% endfor %}
+            </div>
+
+{% endblock content %}

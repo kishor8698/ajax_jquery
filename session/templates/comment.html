@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %} Comment {% endblock title %}
+
+{% block content %}
+  
+    <form action="/comment" method="POST">
+
+    <div>
+    <div class="m-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Post Here</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" name="comment"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Post</button> <button type="button" class="btn btn-info btn-lg"  id="saveDraft">Draft</button>
+    </div>
+    <div>
+        <input type="hidden" name="post_id" id="post_id">
+        <div id="autoSave" class="auto-top"></div>
+    </div>
+    </form>
+
+     {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for category,message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <strong>Message:</strong> {{ message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </ul>
+          {% endif %}
+        {% endwith %}
+
+
+{% endblock content %}
+{% block js%}
+<script>
+ 
+        function autoSave()
+        {
+            var post_data=$("#exampleFormControlTextarea1").val();
+            if( post_data !="")
+            {
+                $.ajax
+                ({
+                     url:"/comment",
+                     method:"POST",
+                     data:{'post_data':post_data},
+                     datatype:"json",
+                     success:function(response)
+                     {
+                         console.log(response)
+                         console.log(response.cmt)
+                        $("#saveDraft").click(function(){ $('#autoSave').text(response.cmt) });
+                        // $("#saveDraft").on('click',function(){ $('#autoSave').text(response.cmt)    });
+                        
+               
+                                        /* 
+                                                if( data !="")
+                                                {   
+                                                    $("#post_id").val(data);
+                                                }
+                                                $("#autoSave").text("Post saved Draft");
+                                                setInterval(function(){ $("#autoSave").text('')},2000);
+
+                                        }*/  
+                     }
+                }); 
+            }
+
+        }
+
+        $("textarea").keyup(function()
+        {
+            setInterval(function()
+            { 
+            autoSave();
+        
+             },5000);
+
+        });
+      
+
+
+</script>
+
+{% endblock js %}

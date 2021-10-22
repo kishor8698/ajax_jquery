@@ -1,0 +1,23 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.demo
+{
+    background-color: rebeccapurple;
+}
+div.blog_post
+{
+    background-color: white;
+}
+.imgbtn
+{
+    margin-bottom: 10px;
+
+}
+.auto-top
+{
+    margin-top: 5px;
+}
+

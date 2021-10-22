@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %} Comment {% endblock title %}
+
+{% block content %}
+  
+    <form action="/edit_post/{{data.id}}" method="POST">
+    <div>
+    <div class="m-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Edit Post Here</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" name="comment">{{data.body}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Post</button>
+    </div>
+    </form>
+
+<!--- this is  flash messages perpose -->
+     {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for category,message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <strong>Message:</strong> {{ message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </ul>
+          {% endif %}
+        {% endwith %}
+
+{% endblock content %}

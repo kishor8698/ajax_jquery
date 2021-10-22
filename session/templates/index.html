@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="text-center mt-5" >Index Page</h1>
+         {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for category,message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <strong>Message:</strong> {{ message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </ul>
+          {% endif %}
+        {% endwith %}
+       
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{{url_for('static',filename='upload_images/1.jpg')}}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{{url_for('static',filename='upload_images/2.jpg')}}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{{url_for('static',filename='upload_images/3.jpg')}}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+
+
+<!--diplsay data logic-->
+    <div class="row mt-5 "> 
+         {% for results  in result %}
+               <div class="col-lg-4 col-md-6 col-sm-12 col-sm-12 mt-5"> 
+                <div class="card text-black post " >
+                    <div class="card-header">{{results.timestamp.strftime('%d-%m-%Y, %H:%M:%S')}} 
+                    </div>
+                    <div class="card-body ">
+                        <h5 class="card-title">{% if current_user.username == results.author.username %} <span class="text-success"> Online</span> {% endif %}Posted By:- {{results.author.username}}</h5>
+                        <p class="card-text">{{results.body}}</p>
+                    </div>
+                    </div>
+                    {% if current_user.username == results.author.username %}
+                    <a href="/edit_post/{{results.id}}"><button type="button" class="btn btn-success btn-sm mt-2">Edit</button></a>
+                    <a href="/delete_post/{{results.id}}"><button type="button" class="btn btn-danger btn-sm mt-2">Delete</button></a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+    </div>
+{% endblock content %}
